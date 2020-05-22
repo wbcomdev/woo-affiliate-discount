@@ -3,7 +3,7 @@
 jQuery( document ).ready( function() {
 
 	jQuery( function() {
-	    jQuery( "#tc-discount-rule-book table tbody" ).sortable();
+	    jQuery( "table.tc-discount-rule-table tbody" ).sortable();
 	});
 	
 	var html_to_append = '<tr>';
@@ -24,7 +24,7 @@ jQuery( document ).ready( function() {
 	jQuery( document.body ).on( 'click', '#tc-discount-rule-book .add-new-rule input', function( event ) {
 		event.preventDefault();
 		event.stopPropagation();
-		jQuery( '#tc-discount-rule-book table tbody' ).append( html_to_append );
+		jQuery( 'table.tc-discount-rule-table  tbody' ).append( html_to_append );
 	} );
 
 } );

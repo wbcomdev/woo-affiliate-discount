@@ -144,7 +144,7 @@ if ( ! class_exists( 'Thoughtcloud_Discount_Rule_Panel' ) ) {
 
 					<br/>
 					
-					<table class="wp-list-table widefat fixed striped">
+					<table class="wp-list-table widefat fixed striped tc-discount-rule-table">
 						<thead>
 							<tr>
 								<th>
