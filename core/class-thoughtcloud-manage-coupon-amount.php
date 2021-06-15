@@ -152,7 +152,7 @@ if ( ! class_exists( 'Thoughtcloud_Manage_Coupon_Amount' ) ) {
 								$cart->coupon_discount_totals[$key] = $discount;
 							}
 							else {
-								$discount = ( ( $discount / 100 ) * ( $total + $old_discount ) );
+								$discount = ( ( $discount / 100 ) * ( $cart_total + $old_discount ) );
 								$cart->coupon_discount_totals[$key] = $discount;
 							}
 						}
