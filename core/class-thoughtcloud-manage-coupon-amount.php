@@ -139,6 +139,34 @@ if ( ! class_exists( 'Thoughtcloud_Manage_Coupon_Amount' ) ) {
 			$discount = 0.0;
 			$_tc_discount_type = get_option( '_tc_discount_type', 'fixed-price' );
 			if( isset( $cart->coupon_discount_totals ) && !empty( $cart->coupon_discount_totals ) && is_array( $cart->coupon_discount_totals ) ) {
+				$product_item = $cart->cart_contents;
+				
+				/* Get Coupon ID */
+				foreach ($cart->coupon_discount_totals as $key => $value) {
+					$coupon_id = wc_get_coupon_id_by_code( $key );
+				}
+				
+				foreach ($cart->cart_contents as $key => $value) {
+					//$coupon_id = wc_get_coupon_id_by_code( $key );
+					$line_subtotal = $value['line_subtotal'];
+					
+					if( get_post_meta( $coupon_id, 'affwp_discount_affiliate', true ) ) {						
+						$line_subtotal = floatval( $line_subtotal );
+						$discount = $this->get_dynamic_discount_amount( $line_subtotal );
+						$old_discount = $cart->coupon_discount_totals[$key];
+						if( $discount ) {
+							if( 'fixed-price' === $_tc_discount_type ) {
+								$cart->cart_contents[$key]['line_total'] = $line_subtotal - $discount;
+							}
+							else {
+								$discount = ( ( $discount / 100 ) * ( $line_subtotal + $old_discount ) );
+								$cart->cart_contents[$key]['line_total'] = $line_subtotal - $discount;
+							}
+						}						
+					}
+				}
+				
+				
 				foreach ($cart->coupon_discount_totals as $key => $value) {
 					$coupon_id = wc_get_coupon_id_by_code( $key );
 					if( get_post_meta( $coupon_id, 'affwp_discount_affiliate', true ) ) {
@@ -159,6 +187,7 @@ if ( ! class_exists( 'Thoughtcloud_Manage_Coupon_Amount' ) ) {
 						break;
 					}
 				}
+				
 			}
 			if( $discount ) {
 				$total += $old_discount;
