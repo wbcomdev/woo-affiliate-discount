@@ -52,7 +52,7 @@ if ( ! class_exists( 'Thoughtcloud_Manage_Coupon_Amount' ) ) {
 			/**
  			* Managing coupon amount in cart and checkout page frontend.
  			*/
-			add_filter( 'woocommerce_calculated_total', array( $this, 'manage_woo_calculated_total' ), 10, 2 );
+			add_filter( 'woocommerce_calculated_total', array( $this, 'manage_woo_calculated_total' ), 9999, 2 );
 
 			/**
  			* Managing coupon amount in order table frontend.
@@ -144,6 +144,7 @@ if ( ! class_exists( 'Thoughtcloud_Manage_Coupon_Amount' ) ) {
 				/* Get Coupon ID */
 				foreach ($cart->coupon_discount_totals as $key => $value) {
 					$coupon_id = wc_get_coupon_id_by_code( $key );
+					$old_discount = $cart->coupon_discount_totals[$key];
 				}
 				
 				foreach ($cart->cart_contents as $key => $value) {
@@ -152,8 +153,7 @@ if ( ! class_exists( 'Thoughtcloud_Manage_Coupon_Amount' ) ) {
 					
 					if( get_post_meta( $coupon_id, 'affwp_discount_affiliate', true ) ) {						
 						$line_subtotal = floatval( $line_subtotal );
-						$discount = $this->get_dynamic_discount_amount( $line_subtotal );
-						$old_discount = $cart->coupon_discount_totals[$key];
+						$discount = $this->get_dynamic_discount_amount( $line_subtotal );						
 						if( $discount ) {
 							if( 'fixed-price' === $_tc_discount_type ) {
 								$cart->cart_contents[$key]['line_total'] = $line_subtotal - $discount;
